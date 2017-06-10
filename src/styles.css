@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*Images*/
+.flex-image-container {
+  -webkit-flex-direction: row; /* Safari */
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.product-image-file {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+img.img-product-image-file  {
+  max-height: 500px;
+  max-width: 500px;
+}

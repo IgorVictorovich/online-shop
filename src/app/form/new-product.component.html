@@ -1,0 +1,34 @@
+<div class="container">
+  <form id="new-product-form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title"
+             [(ngModel)]="title" name="title" >
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description"
+             [(ngModel)]="description" name="description" >
+      <label for="price">Price</label>
+      <input type="number" class="form-control" id="price"
+             [(ngModel)]="price" name="price" >
+      <div [hidden]="recordMode">
+        <label for="image">Image</label>
+        <image-upload id="image"
+
+                      [maxFileSize]="fileSizeLimit"
+                      (onFileUploadFinish)="imageUploaded($event)"
+                      (onRemove)="imageRemoved($event)"
+                      (beforeUpload)="beforeUpload($event)"
+                      [fileTooLargeMessage]="errorMsgOversize"
+                      [dropBoxMessage]="'Drop your images here!'"></image-upload>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+  <div class="alert alert-success" [hidden]="!(isSuccess && !errorMessage)">
+    <strong>Success!</strong> Information successfully saved
+  </div>
+  <div class="alert alert-danger" [hidden]="!(!isSuccess && errorMessage)">
+    <strong>Error!</strong> Something went wrong during save record.
+  </div>
+</div>

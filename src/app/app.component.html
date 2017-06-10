@@ -1,3 +1,12 @@
-<h1>
-  {{title}}
-</h1>
+<div class="header">
+  <h1>Products</h1>
+</div>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" routerLink="" routerLinkActive="active">Products</a>
+      <a class="nav-item nav-link" routerLink="/new" routerLinkActive="active">Add product</a>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
