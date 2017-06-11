@@ -1,13 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail" *ngFor="let product of products">
+    <div class="col-xs-7 col-sm-6 col-lg-8" *ngFor="let product of products">
+      <div class="thumbnail">
         <img class="img-product-image-file"
              [src]="product.Files && product.Files.length && product.Files[0].Src"
              alt="{{product.Title}}">
         <div class="caption">
           <h3>{{product.Title}}</h3>
           <p>{{product.Description}}</p>
+          <p>${{product.Price}}</p>
           <p>
             <a href="view/{{product.Id}}" class="btn btn-primary" role="button">View</a>
             <a href="edit/{{product.Id}}" class="btn btn-default" role="button">Edit</a>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product';
+import { Http } from '@angular/http';
 
 /**
  * storage key.
@@ -46,6 +47,10 @@ export class ProductService {
       return JSON.parse(data);
     }
     return null;
+  }
+
+  constructor(private http: Http) {
+
   }
 
   /**
@@ -119,5 +124,19 @@ export class ProductService {
     data.splice( idx, 1 );
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     return data;
+  }
+
+  public setDemoDataToStorage(): void {
+    const data = ProductService.getFromStorage();
+    if (data && data.length > 0) {
+      return;
+    }
+
+    this.http.get('assets/data/demo-data.json')
+      .subscribe((response) => {
+        if (response.status === 200) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(response.json()));
+        }
+      });
   }
 }

@@ -13,4 +13,8 @@ import { FileService } from './service/file.service';
     FileService
   ]
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private productService: ProductService) {
+    this.productService.setDemoDataToStorage();
+  }
+}
