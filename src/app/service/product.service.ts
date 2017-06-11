@@ -49,8 +49,22 @@ export class ProductService {
     return null;
   }
 
-  constructor(private http: Http) {
+  constructor(private http: Http) {}
 
+  private setDemoDataToStorage(callback): Array<Product> {
+    const data = ProductService.getFromStorage();
+    if (data && data.length > 0) {
+      callback.call(this, data);
+      return;
+    }
+    this.http.get('assets/data/demo-data.json')
+      .subscribe((response) => {
+        if (response.status === 200) {
+          const jsonData = response.json();
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(jsonData));
+          callback.call(this, jsonData);
+        }
+      });
   }
 
   /**
@@ -85,8 +99,10 @@ export class ProductService {
     return data.find((item) => {return item.Id === id; });
   }
 
-  public getData(): Array<Product> {
-    return ProductService.getFromStorage();
+  public getData(callback): void {
+    this.setDemoDataToStorage((data) => {
+      callback.call(this, data);
+    });
   }
 
   public getDataById(id: string): Product {
@@ -124,19 +140,5 @@ export class ProductService {
     data.splice( idx, 1 );
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     return data;
-  }
-
-  public setDemoDataToStorage(): void {
-    const data = ProductService.getFromStorage();
-    if (data && data.length > 0) {
-      return;
-    }
-
-    this.http.get('assets/data/demo-data.json')
-      .subscribe((response) => {
-        if (response.status === 200) {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(response.json()));
-        }
-      });
   }
 }

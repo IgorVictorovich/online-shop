@@ -1,15 +1,39 @@
 <div class="container">
-  <form id="new-product-form" (ngSubmit)="onSubmit()">
+  <form id="new-product-form" #productForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" class="form-control" id="title"
-             [(ngModel)]="title" name="title" >
+             required minlength="2" maxlength="100"
+             [(ngModel)]="title"
+             name="titleField"
+             #titleField="ngModel">
+      <div *ngIf="titleField && titleField.errors && (titleField.dirty || titleField.touched)"
+           class="alert alert-danger">
+        <div [hidden]="!titleField.errors.required">
+          Title is required
+        </div>
+        <div [hidden]="!titleField.errors.minlength">
+          Title must be at least 2 characters long.
+        </div>
+        <div [hidden]="!titleField.errors.maxlength">
+          Title cannot be more than 100 characters long.
+        </div>
+      </div>
       <label for="description">Description</label>
       <input type="text" class="form-control" id="description"
              [(ngModel)]="description" name="description" >
       <label for="price">Price</label>
-      <input type="number" class="form-control" id="price"
-             [(ngModel)]="price" name="price" >
+      <input type="number" min="0" class="form-control" id="price"
+             required
+             [(ngModel)]="price" name="priceField"
+             #priceField="ngModel">
+      <div *ngIf="priceField && priceField.errors && (priceField.dirty || priceField.touched)"
+           class="alert alert-danger">
+        <div [hidden]="!priceField.errors.required">
+          Price is required
+        </div>
+      </div>
+
       <div [hidden]="recordMode">
         <label for="image">Image</label>
         <image-upload id="image"
@@ -23,7 +47,9 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit"
+            [disabled]="!productForm.form.valid"
+            class="btn btn-success">Save</button>
   </form>
   <div class="alert alert-success" [hidden]="!(isSuccess && !errorMessage)">
     <strong>Success!</strong> Information successfully saved

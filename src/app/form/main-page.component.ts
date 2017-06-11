@@ -13,7 +13,9 @@ export class MainPageComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   public loadData(): void {
-    this.products = this.productService.getData();
+    this.productService.getData((data) => {
+      this.products = data;
+    });
   }
 
   ngOnInit() {
